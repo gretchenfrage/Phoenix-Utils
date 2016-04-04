@@ -5,25 +5,25 @@ import java.io.InputStream;
 import java.net.Socket;
 
 /**
- * Represents a server's Sendable-based connection to a client. When run, uses a SendableCoder to decode Sendables
+ * Represents a client's Sendable-based connection to a server. When run, uses a SendableCoder to decode Sendables
  * from a Socket, and then invokes them with itself.
  * @author <a href="mailto:kahlo.phoenix@gmail.com">Phoenix Kahlo</a>
- * @param <A> The class of clients that the Sendables are generic to.
- * @param <B> The class of servers that the Sendables are generic to. <b>Any subclass of ServerConnection
- * must extend ServerConnection with a type argument B that the subclass can be cast to. The compiler will not
+ * @param <A> The class of clients that the Sendables are generic to. <b>Any subclass of ClientConnection
+ * must extend ClientConnection with a type argument A that the subclass can be cast to. The compiler will not
  * detect if this is not the case, and if this is not the case, unchecked casts will occur incorrectly.</b>
+ * @param <B> The class of servers that the Sendables are generic to.
  */
-public class ServerConnection<A, B> extends Thread {
+public class ClientConnection<A, B> extends Thread {
 
 	private Socket socket;
 	private SendableCoder<A, B> coder;
 	
 	/**
-	 * Constructs the ServerConnection with the given arguments, but does not start it.
+	 * Constructs the ClientConnection with the given arguments, but does not start it.
 	 * @param socket the socket that is connection to the client.
 	 * @param coder the SendableCoder with which to encode and decode Sendables.
 	 */
-	public ServerConnection(Socket socket, SendableCoder<A, B> coder) {
+	public ClientConnection(Socket socket, SendableCoder<A, B> coder) {
 		this.socket = socket;
 		this.coder = coder;
 		Thread.currentThread().setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -65,7 +65,7 @@ public class ServerConnection<A, B> extends Thread {
 	}
 	
 	/**
-	 * Sends the Sendable to the client.
+	 * Sends the Sendable to the server
 	 * @param sendable the Sendable to send
 	 */
 	public void send(Sendable<A, B> sendable) {
@@ -93,12 +93,9 @@ public class ServerConnection<A, B> extends Thread {
 		}
 	}
 	
-	/**
-	 * Returns a String representation of this object.
-	 */
 	@Override
 	public String toString() {
-		return "ServerConnection to " + socket;
+		return "ClientConnection to " + socket;
 	}
 	
 }

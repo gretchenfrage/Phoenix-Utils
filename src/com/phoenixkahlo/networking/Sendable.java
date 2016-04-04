@@ -5,9 +5,6 @@ import java.io.OutputStream;
 
 /**
  * Can be sent across streams through a SendableCoder and invoked based on which side of the network it is on.
- * <p>
- * Is expected to have constructor {@code public Sendable(InputStream in) throws IOException},
- * which will be accessed by a SendableCoder through reflection.
  * @author <a href="mailto:kahlo.phoenix@gmail.com">Phoenix Kahlo</a>
  * @param <A> The class of client that is expected to be invoked with on the client end.
  * @param <B> The class of server that is expected to be invoked with on the server end.
